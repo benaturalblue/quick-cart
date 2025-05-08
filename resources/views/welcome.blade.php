@@ -10,29 +10,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
 
-    <style>
-        body {
-            background-color: #f3f3f3;
-        }
-
-        .btn-spaced {
-            margin-right: 30px;
-        }
-
-        .navbar-nav .nav-item {
-            margin: 0 20px 0 10px;
-        }
-        .btn-quickcart {
-            background-color: #8c94cc;
-            color: #fff;
-            border: none;
-        }
-        .btn-quickcart:hover {
-            background-color: #7b83b8;
-            color: #fff;
-        }
-    </style>
 
 </head>
 
@@ -48,12 +27,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto d-flex align-items-center gap-2 mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="btn btn-outline-light" href="/register"
-                            style="background-color: #8c94cc !important; border-color: #8c94cc;">新規登録はこちらから</a>
+                        <a class="btn btn-outline-light btn-register" href="/register">新規登録はこちらから</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-light" href="/login"
-                            style="background-color: #8c94cc !important; border-color: #8c94cc;">ログイン</a>
+                        <a class="btn btn-outline-light btn-login" href="/login">ログイン</a>
                     </li>
                 </ul>
             </div>
@@ -71,7 +48,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $item->name }}</h5>
                                 <p class="card-text text-muted">¥{{ number_format($item->price) }}</p>
-                                <button class="btn btn-quickcart">カートに入れる</button>
+                                <a href="{{ route('show_item', $item->id) }}" class="btn btn-outline-primary">カートに入れる</a>
                                 <a href="{{ route('show_item', $item->id) }}" class="btn btn-outline-primary">詳細を見る</a>
                             </div>
                         </div>
