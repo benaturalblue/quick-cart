@@ -45,13 +45,4 @@
         </div>
     </div>
 </div>
-<div class="text-center p-3" style="background-color: #f3f3f3;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mx-auto">
-                <img src="{{ asset('images/quickcart_logo.jpg') }}" alt="" class="img-fluid" style="max-width: 200px;">
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

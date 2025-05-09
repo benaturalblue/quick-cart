@@ -4,17 +4,20 @@
 <div class="container">
     <h2 class="text-center mb-4">注文確認画面</h2>
 
-    <div class="mb-4">
+    <div class="card mb-4">
+        <div class="card-body">
         <h4>お届け先情報</h4>
         <p><strong>お名前:</strong> {{ $user->name }}</p>
         <p><strong>ニックネーム:</strong> {{ $user->nickname }}</p>
         <p><strong>メールアドレス:</strong> {{ $user->email }}</p>
         <p><strong>住所:</strong> {{ $user->address }}</p>
         <p><strong>電話番号:</strong> {{ $user->number }}</p>
+        </div>
     </div>
 
-    <div class="mb-4">
-        <h4>カート内容</h4>
+    <div class="card mb-4">
+        <div class="card-body">
+        <h4>ご注文内容</h4>
         @php $total = 0; @endphp
         @foreach ($cartItems as $cartItem)
             @php
@@ -29,8 +32,9 @@
                 小計: ¥{{ $subtotal }}
             </div>
         @endforeach
-
+        
         <h5 class="text-end mt-4">合計金額: ¥{{ $total }}</h5>
+        </div>
     </div>
 
     <script src="https://js.stripe.com/v3/"></script>
@@ -44,10 +48,10 @@
         <form id="payment-form" action="{{ route('order.payment') }}" method="POST">
             @csrf
             <input type="hidden" name="payment_method" id="payment-method">
-            <input type="hidden" name="total" value="{{ $total }}"> {{-- ←合計金額を送る --}}
+            <input type="hidden" name="total" value="{{ $total }}">
 
             <div id="card-element" class="my-3"></div>
-            <button type="submit" class="btn btn-primary">支払う (¥{{ $total }})</button>
+            <button type="submit" class="btn btn-primary">注文を確定する</button>
         </form>
     </div>
 

@@ -1,29 +1,39 @@
 body {
     background-color: #f3f3f3;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .btn-spaced {
     margin-right: 30px;
 }
 
-.navbar-nav .nav-item {
-    margin: 0 20px 0 10px;
-}
-.btn-quickcart {
-    background-color: #8c94cc;
-    color: #fff;
-    border: none;
-}
-.btn-quickcart:hover {
-    background-color: #7b83b8;
-    color: #fff;
-}
-.nav-item .btn-register, .nav-item .btn-login {
-    background-color: #8c94cc;
-    border-color: #8c94cc;
+.navbar-logo {
+    width: 300px;
+    height: 120px;
 }
 
-.nav-item .btn-register:hover, .nav-item .btn-login:hover {
-    background-color: #7b83b8;
-    border-color: #7b83b8;
+.navbar-custom {
+    background-color: #F3f3f3;
+}
+
+footer {
+    margin-top: auto;
+    background-color: #8c94cc;
+}
+
+.footer-logo {
+    background-color: #f3f3f3;
+    padding-top: 15px;
+}
+
+.footer-logo img {
+    width: 200px !important;
+    height: 90px !important;
+}
+
+.btn-purple {
+    background-color: #8c94cc !important;
+    border-color: #8c94cc !important;
 }

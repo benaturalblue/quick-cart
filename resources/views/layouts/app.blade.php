@@ -6,50 +6,46 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>QuickCart</title>
 
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light border-bottom" style="background-color: #F3f3f3;">
+        <nav class="navbar navbar-expand-lg border-bottom navbar-custom">
             <div class="container-fluid">
                 <a href="{{ route('welcome') }}">
-                    <img src="{{ asset('images/quickcart_logo.jpg') }}" alt="QuickCart ロゴ" style="width: 300px; height: 120px;">
+                    <img src="{{ asset('images/quickcart_logo.jpg') }}" class="navbar-logo">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="container">
-                    <ul class="navbar-nav ms-auto d-flex align-items-center gap-2 mb-2 mb-lg-0">
+                <div class="ms-auto">
+                    <ul class="navbar-nav gap-4">
                         @guest
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="btn btn-outline-light" href="/register"
-                                    style="background-color: #8c94cc !important; border-color: #8c94cc;">新規登録はこちらから</a>
-                                </li>
-                            @endif
+                        @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light btn-purple" href="/register">新規登録はこちらから</a>
+                        </li>
+                        @endif
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="btn btn-outline-light btn-purple" href="/login">ログイン</a>
+                            </li>
+                        @endif
 
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="btn btn-outline-light" href="/login"
-                                    style="background-color: #8c94cc !important; border-color: #8c94cc;">ログイン</a>
-                                </li>
-                            @endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->nickname }}様
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('cart.show') }}">
+                                        {{ __('カートを見る') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('home') }}">
                                         {{ __('マイページ') }}
                                     </a>
@@ -74,7 +70,7 @@
             @yield('content')
         </main>
 
-        <footer class="text-center" style="background-color: #8c94cc;">
+        <footer>
             <div class="container p-4 pb-0">
                 <section>
                     <p class="d-flex justify-content-center align-items-center">
@@ -92,12 +88,12 @@
                     </p>
                 </section>
             </div>
-            <div class="text-center p-3" style="background-color: #f3f3f3;">
+            <div class="footer-logo text-center p-3">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4 mx-auto">
                             <a href="{{ route('welcome') }}">
-                                <img src="{{ asset('images/quickcart_logo.jpg') }}" alt="QuickCart ロゴ" style="width: 200px; height: 90px;">
+                                <img src="{{ asset('images/quickcart_logo.jpg') }}">
                             </a>
                         </div>
                     </div>
