@@ -1,61 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# QuickCart（簡易ECサイト）
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 使用技術一覧
 
-## About Laravel
+## 目次
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. [プロジェクトについて](#プロジェクトについて)
+2. [環境](#環境)
+3. [機能概要](#機能概要)
+4. [スクリーンショット](#スクリーンショット)
+5. [ディレクトリ構成](#ディレクトリ構成)
+6. [セットアップ手順](#セットアップ手順)
+7. [認証機能](#認証機能)
+8. [Stripe連携](#stripe連携)
+9. [メール通知](#メール通知)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## プロジェクトについて
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+QuickCartは、LaravelとStripeを活用したシンプルなECカートアプリケーションです。 商品一覧、カート機能、注文確認、Stripeによる決済、注文確認メール送信などの機能を備えています。
 
-## Learning Laravel
+## 環境
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| 項目      | バージョン   |
+| ------- | ------- |
+| PHP     | 8.2.9   |
+| Laravel | 12.12.0 |
+| MySQL   | 14.14   |
+| Node.js | 22.15.0 |
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+その他の依存パッケージは `composer.json` と `package.json` を参照してください。
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 機能概要
 
-## Laravel Sponsors
+* 商品一覧／詳細表示
+* カート追加／編集／削除
+* 注文確認画面（認証ユーザーのみ）
+* Stripeによるクレジットカード決済
+* 注文確認メール送信（ジョブ＆キュー使用）
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## スクリーンショット
 
-### Premium Partners
+![QuickCart Screenshot](public/images/quickcart_logo.jpg)
+![QuickCart Screenshot](public/images/127.0.0.1_8000_(2).png)
+![QuickCart Screenshot](public/images/127.0.0.1_8000_cart.png)
+![QuickCart Screenshot](public/images/127.0.0.1_8000_order_confirm(3).png)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+## ディレクトリ構成
 
-## Contributing
+（省略せず一部表示）
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+├── app
+│   ├── Http/Controllers
+│   ├── Jobs/SendOrderConfirmationEmail.php
+│   ├── Mail/OrderCompletedMail.php
+│   ├── Models/CartItem.php
+│   ├── Models/Item.php
+│   ├── Models/Order.php
+│   └── Models/User.php
+├── database/migrations
+├── public/images
+├── resources/views
+│   ├── cart_item.blade.php
+│   ├── order/
+│   └── show_item.blade.php
+├── routes/web.php
+├── .env
+├── composer.json
+├── package.json
+└── README.md
+```
 
-## Code of Conduct
+## セットアップ手順
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+git clone https://github.com/yourname/quick-cart.git
+cd quick-cart
+composer install
+cp .env.example .env
+php artisan key:generate
+npm install && npm run dev
+php artisan migrate --seed
+php artisan serve
+```
 
-## Security Vulnerabilities
+## 認証機能
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Laravel Breeze を使用し、登録・ログイン機能を提供しています。
 
-## License
+## Stripe連携
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* Stripe Elements によりカード情報を安全に入力
+* Laravel Cashier により支払い処理を実行
+* SetupIntent を使い、カードを事前にセットアップ
+
+## メール通知
+
+* 注文完了後に確認メールを送信
+* Laravel の Queue / Job 機能を使用し非同期で送信
+* Mailtrap を使用したSMTPテスト環境を設定済み
+
+
