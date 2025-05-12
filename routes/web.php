@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Item;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\HomeController;
 
 
 Route::get('/', function () {
@@ -18,19 +19,19 @@ Route::get('/items/{id}', function ($id) {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::post('/cart/add', [CartItemController::class, 'add'])->name('cart.add');
-Route::get('/cart', [CartItemController::class, 'show'])->name('cart.show');
+Route::prefix('cart')->name('cart.')->group(function () {
+    Route::post('add', [CartItemController::class, 'add'])->name('add');
+    Route::get('/', [CartItemController::class, 'show'])->name('show');
+    Route::put('{id}', [CartItemController::class, 'update'])->name('update');
+    Route::delete('{id}', [CartItemController::class, 'destroy'])->name('destroy');
+});
 
-Route::put('/cart/{id}', [CartItemController::class, 'update'])->name('cart.update');
-Route::delete('/cart/{id}', [CartItemController::class, 'destroy'])->name('cart.destroy');
-
-Route::get('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm')->middleware('auth');
-
-Route::post('/order/payment', [OrderController::class, 'payment'])->name('order.payment')->middleware('auth');
-
-Route::get('/order/success', function () {
-    return view('order.order_success');
-})->name('order.success');
-
+Route::prefix('order')->middleware('auth')->name('order.')->group(function () {
+    Route::get('confirm', [OrderController::class, 'confirm'])->name('confirm');
+    Route::post('payment', [OrderController::class, 'payment'])->name('payment');
+    Route::get('success', function () {
+        return view('order.order_success');
+    })->name('success');
+});

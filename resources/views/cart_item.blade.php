@@ -39,7 +39,10 @@
 
             <div class="text-center mt-4">
                 <h4 class="text-end mt-4">合計金額: ¥{{ $total }}</h4>
-                <a href="{{ route('order.confirm') }}" class="btn btn-primary">注文確認へ進む</a>
+                <div class="d-flex justify-content-center gap-3 mt-3 mb-4">
+                    <a href="{{ route('order.confirm') }}" class="btn btn-primary">注文確認へ進む</a>
+                    <a href="{{ url('/') }}" class="btn btn-secondary">戻る</a>
+                </div>
             </div>
 
         </div>
