@@ -28,18 +28,18 @@
                         @guest
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="btn btn-outline-light btn-purple" href="/register">新規登録はこちらから</a>
+                            <a class="btn btn-outline-dark" href="/register">新規登録はこちらから</a>
                         </li>
                         @endif
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="btn btn-outline-light btn-purple" href="/login">ログイン</a>
+                                <a class="btn btn-outline-dark me-4" href="/login">ログイン</a>
                             </li>
                         @endif
 
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle me-4" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->nickname }}様
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
