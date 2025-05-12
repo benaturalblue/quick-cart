@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Exception;
-use Stripe\Climate\Order;
 use Stripe\PaymentIntent;
+use App\Jobs\SendOrderConfirmationEmail;
+use App\Mail\OrderConfirmation;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -22,6 +24,10 @@ class OrderController extends Controller
     $intent = $user->createSetupIntent();
 
     $cartItems = \App\Models\CartItem::with('item')->where('user_id', $user->id)->get();
+
+    if ($cartItems->isEmpty()) {
+        return redirect()->route('cart.show');
+    }
 
     return view('order.confirm', compact('user', 'intent', 'cartItems'));
 }
@@ -63,7 +69,6 @@ public function payment(Request $request)
             'total_price' => $amount,
         ]);
 
-        // カート商品を取得
         $cartItems = \App\Models\CartItem::with('item')->where('user_id', $user->id)->get();
 
         foreach ($cartItems as $cartItem) {
@@ -74,6 +79,8 @@ public function payment(Request $request)
                 'price' => $cartItem->item->price,
             ]);
         }
+
+        dispatch(new SendOrderConfirmationEmail($user, $order));
 
         \App\Models\CartItem::where('user_id', $user->id)->delete();
 
