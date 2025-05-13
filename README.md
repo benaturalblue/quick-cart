@@ -1,4 +1,5 @@
-# QuickCart（簡易ECサイト）
+# QuickCart（Laravelを使った自作ECサイト）
+![QuickCart Screenshot](public/images/quickcart_logo.jpg)
 
 ## 使用技術一覧
 
@@ -39,7 +40,6 @@ QuickCartは、LaravelとStripeを活用したシンプルなECカートアプ�
 
 ## スクリーンショット
 
-![QuickCart Screenshot](public/images/quickcart_logo.jpg)
 ![QuickCart Screenshot](public/images/127.0.0.1_8000_(2).png)
 ![QuickCart Screenshot](public/images/127.0.0.1_8000_cart.png)
 ![QuickCart Screenshot](public/images/127.0.0.1_8000_order_confirm(3).png)
