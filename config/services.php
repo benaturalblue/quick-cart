@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'stripe' => [
+    'pb_key'=>env('STRIPE_KEY'),
+    'st_key'=>env('STRIPE_SECRET'),
+    'basic_plan_id'=>env('STRIPE_BASIC_ID'),
+    ],
 ];
