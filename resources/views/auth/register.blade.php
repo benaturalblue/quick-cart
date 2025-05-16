@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('新規登録') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}"class="h-adr">
                         @csrf
 
                         <div class="row mb-3">
@@ -52,18 +52,41 @@
                                 @enderror
                             </div>
                         </div>
+                        <span class="p-country-name" style="display:none;">Japan</span>
+                        <input type="hidden" name="address" id="address">
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">郵便番号</label>
+                            <div class="col-md-6">
+                                〒<input type="text" name="postal_code1" class="p-postal-code form-control d-inline-block w-auto" size="3" maxlength="3" required>
+                                -<input type="text" name="postal_code2" class="p-postal-code form-control d-inline-block w-auto" size="4" maxlength="4" required>
+                            </div>
+                        </div>
 
                         <div class="row mb-3">
-                            <label for="address" class="col-md-4 col-form-label text-md-end">{{ __('住所') }}</label>
-
+                            <label class="col-md-4 col-form-label text-md-end">都道府県</label>
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="email">
+                                <input type="text" name="region" class="p-region form-control" readonly>
+                            </div>
+                        </div>
 
-                                @error('address')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">市区町村</label>
+                            <div class="col-md-6">
+                                <input type="text" name="locality" class="p-locality form-control" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">町名</label>
+                            <div class="col-md-6">
+                                <input type="text" name="street" class="p-street-address form-control">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">以降の住所</label>
+                            <div class="col-md-6">
+                                <input type="text" name="extended" class="p-extended-address form-control">
                             </div>
                         </div>
 
@@ -116,4 +139,28 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fields = ['postal_code1', 'postal_code2', 'region', 'locality', 'street', 'extended'];
+
+        fields.forEach(name => {
+            const el = document.getElementsByName(name)[0];
+            if (el) {
+                el.addEventListener('input', updateAddress);
+            }
+        });
+
+        function updateAddress() {
+            const postal1 = document.getElementsByName('postal_code1')[0].value;
+            const postal2 = document.getElementsByName('postal_code2')[0].value;
+            const region = document.getElementsByName('region')[0].value;
+            const locality = document.getElementsByName('locality')[0].value;
+            const street = document.getElementsByName('street')[0].value;
+            const extended = document.getElementsByName('extended')[0].value;
+
+            const fullAddress = `〒${postal1}-${postal2} ${region}${locality}${street}${extended}`;
+            document.getElementById('address').value = fullAddress;
+        }
+    });
+</script>
 @endsection

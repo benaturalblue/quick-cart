@@ -101,5 +101,6 @@
             </div>
         </footer>
     </div>
+    <script src="https://yubinbango.github.io/yubinbango/yubinbango.js" async></script>
 </body>
 </html>
