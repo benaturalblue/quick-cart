@@ -77,9 +77,16 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label class="col-md-4 col-form-label text-md-end">以降の住所</label>
+                            <label class="col-md-4 col-form-label text-md-end">町名</label>
                             <div class="col-md-6">
                                 <input type="text" name="street" class="p-street-address form-control">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">以降の住所</label>
+                            <div class="col-md-6">
+                                <input type="text" name="extended" class="p-extended-address form-control">
                             </div>
                         </div>
 
