@@ -40,9 +40,9 @@ QuickCartは、LaravelとStripeを活用したシンプルなECカートアプ�
 
 ## スクリーンショット
 
-![QuickCart Screenshot](public/images/127.0.0.1_8000_(2).png)
+![QuickCart Screenshot](public/images/127.0.0.1_8000.png)
 ![QuickCart Screenshot](public/images/127.0.0.1_8000_cart.png)
-![QuickCart Screenshot](public/images/127.0.0.1_8000_order_confirm(3).png)
+![QuickCart Screenshot](public/images/127.0.0.1_8000_order_confirm.png)
 
 ## ディレクトリ構成
 
