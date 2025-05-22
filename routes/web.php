@@ -35,3 +35,5 @@ Route::prefix('order')->middleware('auth')->name('order.')->group(function () {
         return view('order.order_success');
     })->name('success');
 });
+
+Route::get('/{any}', fn () => view('app'))->where('any', '.*');
