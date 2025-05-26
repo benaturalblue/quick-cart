@@ -20,7 +20,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg border-bottom navbar-custom">
             <div class="container-fluid">
-                <a href="{{ route('welcome') }}">
+                <a href="{{ url('/') }}">
                     <img src="{{ asset('images/quickcart_logo.jpg') }}" class="navbar-logo">
                 </a>
                 <div class="ms-auto">
@@ -92,7 +92,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4 mx-auto">
-                            <a href="{{ route('welcome') }}">
+                            <a href="{{ url('/') }}">
                                 <img src="{{ asset('images/quickcart_logo.jpg') }}">
                             </a>
                         </div>
