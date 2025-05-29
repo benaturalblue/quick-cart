@@ -8,9 +8,14 @@
         class="h-12 object-contain"
       />
       <div class="space-x-4">
-        <router-link to="/login" class="btn-purple">ログイン</router-link>
-        <router-link to="/register" class="btn-purple">新規登録</router-link>
-      </div>
+    <template v-if="user">
+      <span class="text-gray-700">{{ user.nickname }} 様</span>
+    </template>
+    <template v-else>
+      <router-link to="/login" class="btn-purple">ログイン</router-link>
+      <router-link to="/register" class="btn-purple">新規登録</router-link>
+    </template>
+  </div>
     </header>
 
     <!-- 商品一覧 -->
@@ -66,6 +71,7 @@ axios.defaults.withCredentials = true
 
 
 const items = ref([])
+const user = ref(null)
 
 onMounted(async () => {
     try {
@@ -75,6 +81,17 @@ onMounted(async () => {
         console.error('商品一覧取得エラー:', error)
     }
 })
+
+const fetchUser = async () => {
+  try {
+    const res = await axios.get('/user', { withCredentials: true })
+    user.value = res.data
+  } catch (e) {
+    user.value = null
+  }
+}
+
+onMounted(fetchUser)
 
 const getCookie = (name) => {
     const value = `; ${document.cookie}`;
