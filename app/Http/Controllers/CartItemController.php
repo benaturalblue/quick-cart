@@ -12,7 +12,7 @@ class CartItemController extends Controller
 {
     public function __construct()
 {
-    $this->middleware('auth');
+    $this->middleware('auth:sanctum');
 }
 
     public function add(Request $request)
@@ -38,7 +38,7 @@ class CartItemController extends Controller
         ]);
     }
 
-    return redirect()->route('cart.show')->with('success', '商品をカートに追加しました');
+    return response()->json(['message' => '商品をカートに追加しました']);
 
 }
     public function show()
