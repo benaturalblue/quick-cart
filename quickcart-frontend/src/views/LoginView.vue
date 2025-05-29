@@ -12,12 +12,16 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
+
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
 
 const email = ref('')
 const password = ref('')
+const router = useRouter()
+
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -54,6 +58,8 @@ const login = async () => {
 
 
     alert('ログイン成功');
+    router.push('/')
+
   } catch (error) {
     console.error('ログイン失敗', error);
     alert('ログインに失敗しました');
