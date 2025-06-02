@@ -46,7 +46,7 @@ class CartItemController extends Controller
         $userId = Auth::id();
         $cartItems = CartItem::with('item')->where('user_id', $userId)->get();
 
-        return view('cart_item', compact('cartItems'));
+        return response()->json($cartItems);
     }
 
     public function update(Request $request, $id)

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CartItemController;
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
@@ -8,3 +10,11 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 require base_path('routes/api.php');
+
+Route::middleware(['web', 'auth'])->prefix('api')->group(function () {
+    Route::get('/user', function () {
+        return Auth::user(); // ログイン中のユーザー情報を返す
+    });
+
+    Route::get('/cart/show', [CartItemController::class, 'show'])->name('cart.show');
+});

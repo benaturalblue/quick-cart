@@ -10,6 +10,7 @@
       <div class="space-x-4">
     <template v-if="user">
       <span class="text-gray-700">{{ user.nickname }} 様</span>
+      <router-link to="/cart" class="btn-purple">カートを見る</router-link>
     </template>
     <template v-else>
       <router-link to="/login" class="btn-purple">ログイン</router-link>
@@ -65,11 +66,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
+
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
 
-
+const router = useRouter()
 const items = ref([])
 const user = ref(null)
 
@@ -101,10 +104,8 @@ const getCookie = (name) => {
 
 const addToCart = async (itemId) => {
     try {
-        // CSRFクッキーの取得（これで XSRF-TOKEN がセットされる）
         await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
 
-        // CSRFトークンをクッキーから取得してヘッダーに追加
         const xsrfToken = getCookie('XSRF-TOKEN');
 
         await axios.post('/api/cart/add',
