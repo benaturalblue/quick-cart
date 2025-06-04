@@ -31,16 +31,22 @@
           <p>数量: {{ item.quantity }}</p>
         </li>
       </ul>
+      <div class="mt-4">
+        <p class="font-semibold">合計金額: ¥{{ totalAmount }}</p>
+      </div>
       <button @click="goToOrderConfirm" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
         注文確認
       </button>
+       <button @click="goHome" class="px-4 py-2 bg-gray-300 text-black rounded">
+        ホームに戻る
+       </button>
     </div>
     <p v-else>カートに商品はありません。</p>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
@@ -64,12 +70,6 @@ function goToOrderConfirm() {
 
 
 onMounted(async () => {
-     try {
-    const userRes = await axios.get('/api/user')
-    console.log('ログインユーザー情報:', userRes.data)
-  } catch (err) {
-    console.error('ログインされていません:', err)
-  }
 
   try {
     await axios.get('/sanctum/csrf-cookie', { withCredentials: true });
@@ -83,9 +83,18 @@ onMounted(async () => {
       withCredentials: true
     })
 
-
+    
 
     cartItems.value = res.data
+
+    const userRes = await axios.get('/api/user', {
+      headers: {
+        'X-XSRF-TOKEN': decodeURIComponent(token),
+      },
+      withCredentials: true
+    })
+    user.value = userRes.data
+
   } catch (error) {
     console.error('カート取得エラー:', error)
     if (error.response) {
@@ -93,4 +102,15 @@ onMounted(async () => {
     }
   }
 })
+
+const totalAmount = computed(() => {
+  return cartItems.value.reduce((sum, item) => {
+    return sum + item.item.price * item.quantity
+  }, 0)
+})
+
+function goHome() {
+  router.push('/')
+}
+
 </script>

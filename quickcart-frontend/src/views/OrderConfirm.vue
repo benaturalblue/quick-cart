@@ -40,6 +40,11 @@
         <p>住所: {{ user.address }}</p>
         <p>電話番号: {{ user.number }}</p>
       </div>
+    <div v-if="user" class="mt-6">
+    <h2 class="text-lg font-semibold">カード情報</h2>
+    <div id="card-element" class="border p-3 rounded bg-white"></div>
+    <p id="card-error" class="text-red-500 text-sm mt-1"></p>
+    </div>
       <button @click="submitOrder" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
         注文を確定する
       </button>
@@ -50,6 +55,13 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import { loadStripe } from '@stripe/stripe-js'
+
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY)
+
+let stripe = null
+let cardElement = null
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
@@ -70,26 +82,27 @@ onMounted(async () => {
 
     const token = getCookie('XSRF-TOKEN')
 
-    const res = await axios.get('/api/cart/show', {
-      headers: {
-        'X-XSRF-TOKEN': decodeURIComponent(token),
-      },
-      withCredentials: true,
-    })
+    const [cartRes, userRes] = await Promise.all([
+      axios.get('/api/cart/show', {
+        headers: { 'X-XSRF-TOKEN': decodeURIComponent(token) },
+      }),
+      axios.get('/api/user', {
+        headers: { 'X-XSRF-TOKEN': decodeURIComponent(token) },
+      }),
+    ])
 
-    const userRes = await axios.get('/api/user', {
-      headers: {
-        'X-XSRF-TOKEN': decodeURIComponent(token),
-      },
-      withCredentials: true,
-    })
-
-    cartItems.value = res.data
+    cartItems.value = cartRes.data
     user.value = userRes.data
+
+    stripe = await stripePromise
+    const elements = stripe.elements()
+    cardElement = elements.create('card')
+    cardElement.mount('#card-element')
   } catch (error) {
     console.error('データ取得エラー:', error)
   }
 })
+
 
 const totalAmount = computed(() => {
   return cartItems.value.reduce((sum, item) => {
