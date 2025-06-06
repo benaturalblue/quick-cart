@@ -90,4 +90,61 @@ public function payment(Request $request)
     }
 }
 
+public function apiPayment(Request $request)
+{
+    $user = Auth::user();
+
+    if (!$user->hasStripeId()) {
+        $user->createAsStripeCustomer();
+    }
+
+    $paymentMethodId = $request->input('payment_method_id');
+    $amount = intval($request->input('total'));
+
+    if (!$paymentMethodId || !$amount) {
+        return response()->json(['error' => 'カード情報または金額が正しく送信されていません。'], 400);
+    }
+
+    Stripe::setApiKey(config('cashier.secret'));
+
+    try {
+        $intent = PaymentIntent::create([
+            'amount' => $amount,
+            'currency' => 'jpy',
+            'customer' => $user->stripe_id,
+            'payment_method' => $paymentMethodId,
+            'confirm' => true,
+            'off_session' => true,
+            'automatic_payment_methods' => [
+                'enabled' => true,
+                'allow_redirects' => 'never',
+            ],
+        ]);
+
+        $order = \App\Models\Order::create([
+            'user_id' => $user->id,
+            'total_price' => $amount,
+        ]);
+
+        $cartItems = \App\Models\CartItem::with('item')->where('user_id', $user->id)->get();
+
+        foreach ($cartItems as $cartItem) {
+            \App\Models\OrderItem::create([
+                'order_id' => $order->id,
+                'item_id' => $cartItem->item_id,
+                'quantity' => $cartItem->quantity,
+                'price' => $cartItem->item->price,
+            ]);
+        }
+
+        dispatch(new SendOrderConfirmationEmail($user, $order));
+        \App\Models\CartItem::where('user_id', $user->id)->delete();
+
+        return response()->json(['message' => '注文が完了しました']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => '決済に失敗しました: ' . $e->getMessage()], 500);
+    }
+}
+
+
 }

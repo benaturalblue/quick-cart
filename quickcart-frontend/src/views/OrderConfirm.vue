@@ -110,7 +110,45 @@ const totalAmount = computed(() => {
   }, 0)
 })
 
-function submitOrder() {
-  alert('注文を確定します（実装はこれから）')
+async function submitOrder() {
+  if (!stripe || !cardElement || !user.value) return
+
+  const { error, paymentMethod } = await stripe.createPaymentMethod({
+    type: 'card',
+    card: cardElement,
+    billing_details: {
+      name: user.value.name,
+      email: user.value.email,
+    },
+  })
+
+  if (error) {
+    document.getElementById('card-error').textContent = error.message
+    return
+  }
+
+  try {
+    await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
+    const token = getCookie('XSRF-TOKEN')
+
+    await axios.post(
+      '/api/order/submit',
+      {
+        payment_method_id: paymentMethod.id,
+        total: totalAmount.value,
+      },
+      {
+        headers: {
+          'X-XSRF-TOKEN': decodeURIComponent(token),
+        },
+        withCredentials: true,
+      }
+    )
+
+    alert('注文が完了しました！')
+  } catch (err) {
+    console.error('決済エラー:', err)
+    alert('決済に失敗しました')
+  }
 }
 </script>

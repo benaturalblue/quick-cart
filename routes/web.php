@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
@@ -18,3 +19,8 @@ Route::middleware(['web', 'auth'])->prefix('api')->group(function () {
 
     Route::get('/cart/show', [CartItemController::class, 'show'])->name('cart.show');
 });
+
+Route::middleware(['web', 'auth:sanctum'])->prefix('api')->group(function () {
+    Route::post('/order/submit', [OrderController::class, 'apiPayment'])->name('order.submit');
+});
+
