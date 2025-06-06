@@ -11,6 +11,7 @@
     <template v-if="user">
       <span class="text-gray-700">{{ user.nickname }} 様</span>
       <router-link to="/cart" class="btn-purple">カートを見る</router-link>
+      <router-link to="/mypage" class="btn-purple">マイページ</router-link>
     </template>
     <template v-else>
       <router-link to="/login" class="btn-purple">ログイン</router-link>

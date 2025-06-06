@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
@@ -16,7 +17,7 @@ Route::middleware(['web', 'auth'])->prefix('api')->group(function () {
     Route::get('/user', function () {
         return Auth::user(); // ログイン中のユーザー情報を返す
     });
-
+    Route::get('/orders/history', [HomeController::class, 'orderHistory']);
     Route::get('/cart/show', [CartItemController::class, 'show'])->name('cart.show');
 });
 

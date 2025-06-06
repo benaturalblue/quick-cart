@@ -29,4 +29,10 @@ class HomeController extends Controller
         $orders = $user->orders()->with('orderItems.item')->latest()->get();
         return view('home', compact('orders'));
     }
+    public function orderHistory()
+    {
+        $user = Auth::user();
+        $orders = $user->orders()->with('orderItems.item')->latest()->get();
+        return response()->json($orders);
+    }
 }
