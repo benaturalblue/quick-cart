@@ -37,11 +37,6 @@ const login = async () => {
 
     const xsrfToken = getCookie('XSRF-TOKEN');
 
-    console.log('送信前:', {
-      email: email.value,
-      password: password.value
-    })
-
     await axios.post(
       '/login',
       {
