@@ -1,4 +1,5 @@
 <template>
+    <AppHeader />
   <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
     <h2 class="text-xl font-bold mb-4">ログイン</h2>
     <form @submit.prevent="login">
@@ -7,12 +8,15 @@
       <button class="btn-purple w-full">ログイン</button>
     </form>
   </div>
+  <AppFooter />
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 
 axios.defaults.baseURL = 'http://localhost:8000'

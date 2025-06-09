@@ -1,23 +1,7 @@
 <!-- src/views/CartView.vue -->
 <template>
   <div>
-    <header class="flex justify-between items-center px-6 py-5 bg-white shadow-md">
-      <img
-        src="/images/quickcart_logo.jpg"
-        alt="QuickCart"
-        class="h-12 object-contain"
-      />
-      <div class="space-x-4">
-    <template v-if="user">
-      <span class="text-gray-700">{{ user.nickname }} 様</span>
-      <router-link to="/cart" class="btn-purple">カートを見る</router-link>
-    </template>
-    <template v-else>
-      <router-link to="/login" class="btn-purple">ログイン</router-link>
-      <router-link to="/register" class="btn-purple">新規登録</router-link>
-    </template>
-  </div>
-    </header>
+    <AppHeader />
     <h1>カート一覧</h1>
     <div v-if="cartItems.length">
       <ul>
@@ -43,12 +27,15 @@
     </div>
     <p v-else>カートに商品はありません。</p>
   </div>
+  <AppFooter />
 </template>
 
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
@@ -83,7 +70,7 @@ onMounted(async () => {
       withCredentials: true
     })
 
-    
+
 
     cartItems.value = res.data
 

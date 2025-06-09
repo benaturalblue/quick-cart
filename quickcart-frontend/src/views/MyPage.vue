@@ -1,4 +1,5 @@
 <template>
+    <AppHeader />
   <div>
     <h2 class="text-xl font-bold mb-4">購入履歴</h2>
     <div v-if="orders.length === 0">
@@ -20,11 +21,14 @@
       </div>
     </div>
   </div>
+  <AppFooter />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 const orders = ref([])
 

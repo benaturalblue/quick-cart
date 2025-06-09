@@ -1,26 +1,6 @@
 <template>
+    <AppHeader />
   <div class="min-h-screen bg-gray-100">
-    <!-- ヘッダー -->
-    <header class="flex justify-between items-center px-6 py-5 bg-white shadow-md">
-      <img
-        src="/images/quickcart_logo.jpg"
-        alt="QuickCart"
-        class="h-12 object-contain"
-      />
-      <div class="space-x-4">
-    <template v-if="user">
-      <span class="text-gray-700">{{ user.nickname }} 様</span>
-      <router-link to="/cart" class="btn-purple">カートを見る</router-link>
-      <router-link to="/mypage" class="btn-purple">マイページ</router-link>
-    </template>
-    <template v-else>
-      <router-link to="/login" class="btn-purple">ログイン</router-link>
-      <router-link to="/register" class="btn-purple">新規登録</router-link>
-    </template>
-  </div>
-    </header>
-
-    <!-- 商品一覧 -->
     <main class="px-6 py-10 max-w-screen-xl mx-auto">
       <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         <div
@@ -41,13 +21,13 @@
             <div class="mt-3 flex flex-col gap-2">
               <button
                 @click="addToCart(item.id)"
-                class="btn-purple w-full"
+                class="w-full"
               >
                 カートに入れる
               </button>
               <router-link
                 :to="{ name: 'ItemDetail', params: { id: item.id } }"
-                class="btn-purple w-full text-center"
+                class="w-full text-center"
               >
                 商品詳細を見る
               </router-link>
@@ -57,6 +37,7 @@
       </div>
     </main>
   </div>
+  <AppFooter />
 </template>
 
 
@@ -68,6 +49,9 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 
 axios.defaults.baseURL = 'http://localhost:8000'
@@ -76,8 +60,10 @@ axios.defaults.withCredentials = true
 const router = useRouter()
 const items = ref([])
 const user = ref(null)
+const userStore = useUserStore()
 
 onMounted(async () => {
+    userStore.fetchUser()
     try {
         const response = await axios.get('/api/items')
         items.value = response.data
@@ -126,9 +112,3 @@ const addToCart = async (itemId) => {
 }
 
 </script>
-
-<style scoped>
-.btn-purple {
-    @apply border border-purple-600 text-purple-600 hover:bg-purple-50 rounded px-4 py-2;
-}
-</style>

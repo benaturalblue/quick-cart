@@ -1,22 +1,6 @@
 <template>
+    <AppHeader />
   <div class="p-4">
-    <header class="flex justify-between items-center px-6 py-5 bg-white shadow-md">
-      <img
-        src="/images/quickcart_logo.jpg"
-        alt="QuickCart"
-        class="h-12 object-contain"
-      />
-      <div class="space-x-4">
-    <template v-if="user">
-      <span class="text-gray-700">{{ user.nickname }} 様</span>
-      <router-link to="/cart" class="btn-purple">カートを見る</router-link>
-    </template>
-    <template v-else>
-      <router-link to="/login" class="btn-purple">ログイン</router-link>
-      <router-link to="/register" class="btn-purple">新規登録</router-link>
-    </template>
-  </div>
-    </header>
     <h1>注文確認</h1>
     <div v-if="cartItems.length">
       <ul>
@@ -50,12 +34,15 @@
       </button>
     </div>
   </div>
+  <AppFooter />
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import { loadStripe } from '@stripe/stripe-js'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY)
