@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 
 Route::middleware('api')->prefix('api')->group(function () {
     Route::get('/items', [ItemController::class, 'index']);
+    Route::get('/items/{id}', [ItemController::class, 'show']);
 });
 
 Route::middleware('api')->prefix('api')->group(function () {
