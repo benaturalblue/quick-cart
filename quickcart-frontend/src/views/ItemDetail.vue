@@ -27,13 +27,20 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import axios from 'axios'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+
+axios.defaults.baseURL = 'http://localhost:8000'
+axios.defaults.withCredentials = true
 
 const route = useRoute()
+const router = useRouter()
 const item = ref(null)
+const userStore = useUserStore()
 
 onMounted(async () => {
   try {
@@ -44,6 +51,18 @@ onMounted(async () => {
   }
 })
 
+const fetchUser = async () => {
+  try {
+    const res = await axios.get('/user', { withCredentials: true })
+    userStore.setUser(res.data)
+  } catch (e) {
+    userStore.clearUser()
+  }
+}
+
+
+onMounted(fetchUser)
+
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -51,24 +70,29 @@ const getCookie = (name) => {
 }
 
 const addToCart = async (itemId) => {
-  try {
-    await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
+  if (!userStore.user) {
+    alert('ログインしてください')
+    router.push('/login')
+    return
+  }
 
-    const xsrfToken = getCookie('XSRF-TOKEN');
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+
+    const xsrfToken = getCookie('XSRF-TOKEN')
 
     await axios.post('/api/cart/add',
       { item_id: itemId, quantity: 1 },
       {
-        withCredentials: true,
         headers: {
           'X-XSRF-TOKEN': decodeURIComponent(xsrfToken),
         }
       }
-    );
+    )
 
     alert('カートに追加しました')
   } catch (error) {
-    console.error('カート追加エラー:', error);
+    console.error('カート追加エラー:', error)
   }
 }
 </script>

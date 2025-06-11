@@ -90,6 +90,11 @@ const getCookie = (name) => {
 }
 
 const addToCart = async (itemId) => {
+    if (!userStore.user) {
+    alert('ログインしてください')
+    router.push('/login')
+    return
+  }
     try {
         await axios.get('http://localhost:8000/sanctum/csrf-cookie', { withCredentials: true });
 
