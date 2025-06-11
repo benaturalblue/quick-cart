@@ -19,7 +19,7 @@
         <p class="font-semibold">合計金額: ¥{{ totalAmount }}</p>
       </div>
       <button @click="goToOrderConfirm" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-        注文確認
+        注文確認に進む
       </button>
        <button @click="goHome" class="px-4 py-2 bg-gray-300 text-black rounded">
         ホームに戻る
@@ -34,6 +34,7 @@
 import { onMounted, ref, computed } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 
@@ -42,6 +43,7 @@ axios.defaults.withCredentials = true
 const cartItems = ref([])
 const user = ref(null)
 const router = useRouter()
+const userStore = useUserStore()
 
 
 function getCookie(name) {
@@ -80,7 +82,7 @@ onMounted(async () => {
       },
       withCredentials: true
     })
-    user.value = userRes.data
+    userStore.setUser(userRes.data)
 
   } catch (error) {
     console.error('カート取得エラー:', error)

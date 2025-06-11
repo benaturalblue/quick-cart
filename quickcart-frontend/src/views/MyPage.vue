@@ -27,10 +27,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useUserStore } from '@/stores/user'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 
 const orders = ref([])
+const userStore = useUserStore()
+
 
 function getCookie(name) {
   const value = `; ${document.cookie}`
@@ -47,6 +50,12 @@ onMounted(async () => {
   try {
     await axios.get('/sanctum/csrf-cookie', { withCredentials: true })
     const token = getCookie('XSRF-TOKEN')
+
+    const userRes = await axios.get('/api/user', {
+    headers: { 'X-XSRF-TOKEN': decodeURIComponent(token) },
+    withCredentials: true,
+    })
+    userStore.setUser(userRes.data)
 
     const res = await axios.get('/api/orders/history', {
       headers: { 'X-XSRF-TOKEN': decodeURIComponent(token) },

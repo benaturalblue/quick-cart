@@ -41,6 +41,7 @@
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import { loadStripe } from '@stripe/stripe-js'
+import { useUserStore } from '@/stores/user'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 
@@ -55,6 +56,7 @@ axios.defaults.withCredentials = true
 
 const cartItems = ref([])
 const user = ref(null)
+const userStore = useUserStore()
 
 function getCookie(name) {
   const value = `; ${document.cookie}`
@@ -80,6 +82,7 @@ onMounted(async () => {
 
     cartItems.value = cartRes.data
     user.value = userRes.data
+    userStore.setUser(userRes.data)
 
     stripe = await stripePromise
     const elements = stripe.elements()
