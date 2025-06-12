@@ -1,20 +1,23 @@
-<!-- src/views/RegisterView.vue -->
 <template>
+  <div class="min-h-screen flex flex-col">
     <AppHeader />
-  <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
-    <h2 class="text-xl font-bold mb-4">新規登録</h2>
-    <form @submit.prevent="register">
-      <input v-model="nickname" type="text" placeholder="ニックネーム" class="input mb-3 w-full" />
-      <input v-model="name" type="text" placeholder="名前" class="input mb-3 w-full" />
-      <input v-model="address" type="text" placeholder="住所" class="input mb-3 w-full" />
-      <input v-model="number" type="text" placeholder="電話番号" class="input mb-3 w-full" />
-      <input v-model="email" type="email" placeholder="メールアドレス" class="input mb-3 w-full" />
-      <input v-model="password" type="password" placeholder="パスワード" class="input mb-3 w-full" />
-      <input v-model="passwordConfirmation" type="password" placeholder="パスワード確認" class="input mb-3 w-full" />
-      <button class="btn-purple w-full">登録</button>
-    </form>
+    <main class="flex-grow flex items-center justify-center px-4">
+    <div class="flex-grow max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
+      <h2 class="text-xl font-bold mb-4">新規登録</h2>
+      <form @submit.prevent="register">
+        <input v-model="nickname" type="text" placeholder="ニックネーム" class="input mb-3 w-full" />
+        <input v-model="name" type="text" placeholder="名前" class="input mb-3 w-full" />
+        <input v-model="address" type="text" placeholder="住所" class="input mb-3 w-full" />
+        <input v-model="number" type="text" placeholder="電話番号" class="input mb-3 w-full" />
+        <input v-model="email" type="email" placeholder="メールアドレス" class="input mb-3 w-full" />
+        <input v-model="password" type="password" placeholder="パスワード" class="input mb-3 w-full" />
+        <input v-model="passwordConfirmation" type="password" placeholder="パスワード確認" class="input mb-3 w-full" />
+        <button class="btn-purple w-full">登録</button>
+      </form>
+    </div>
+    </main>
+    <AppFooter />
   </div>
-  <AppFooter />
 </template>
 
 <script setup>

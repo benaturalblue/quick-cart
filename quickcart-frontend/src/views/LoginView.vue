@@ -1,14 +1,18 @@
 <template>
+  <div class="flex flex-col min-h-screen bg-gray-100">
     <AppHeader />
-  <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
-    <h2 class="text-xl font-bold mb-4">ログイン</h2>
-    <form @submit.prevent="login">
-      <input v-model="email" type="email" placeholder="メールアドレス" class="input mb-3 w-full" />
-      <input v-model="password" type="password" placeholder="パスワード" class="input mb-3 w-full" />
-      <button class="btn-purple w-full">ログイン</button>
-    </form>
+    <main class="flex-grow flex items-center justify-center px-4">
+      <div class="max-w-md w-full bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">ログイン</h2>
+        <form @submit.prevent="login">
+          <input v-model="email" type="email" placeholder="メールアドレス" class="input mb-3 w-full" />
+          <input v-model="password" type="password" placeholder="パスワード" class="input mb-3 w-full" />
+          <button class="btn-purple w-full">ログイン</button>
+        </form>
+      </div>
+    </main>
+    <AppFooter />
   </div>
-  <AppFooter />
 </template>
 
 <script setup>
