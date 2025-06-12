@@ -1,27 +1,41 @@
 <template>
+  <div class="min-h-screen flex flex-col bg-gray-50">
     <AppHeader />
-  <div>
-    <h2 class="text-xl font-bold mb-4">購入履歴</h2>
-    <div v-if="orders.length === 0">
-      購入履歴はありません。
-    </div>
-    <div v-else>
-      <div v-for="order in orders" :key="order.id" class="mb-6 border p-4 rounded-lg shadow">
-        <p>注文日: {{ formatDate(order.created_at) }}</p>
-        <p>合計金額: ¥{{ order.total_price }}</p>
-        <ul class="mt-2">
-          <li
-            v-for="item in order.order_items"
-            :key="item.id"
-            class="border-t py-2"
+
+    <main class="flex-grow px-4 py-8">
+      <h2 class="text-2xl font-bold text-center mb-6">購入履歴</h2>
+
+      <div class="max-w-3xl mx-auto">
+        <div v-if="orders.length === 0" class="text-center text-gray-600">
+          購入履歴はありません。
+        </div>
+
+        <div v-else class="space-y-6">
+          <div
+            v-for="order in orders"
+            :key="order.id"
+            class="bg-white p-6 rounded-lg shadow-md"
           >
-            {{ item.item.name }} × {{ item.quantity }}（¥{{ item.price }}）
-          </li>
-        </ul>
+            <div class="mb-2">
+              <p class="text-sm text-gray-500">注文日: {{ formatDate(order.created_at) }}</p>
+              <p class="text-lg font-semibold text-gray-800">合計金額: ¥{{ order.total_price }}</p>
+            </div>
+
+            <ul class="mt-4 space-y-2 border-t pt-4">
+              <li
+                v-for="item in order.order_items"
+                :key="item.id"
+                class="text-gray-700"
+              >
+                {{ item.item.name }} × {{ item.quantity }}（¥{{ item.price }}）
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
+    <AppFooter />
   </div>
-  <AppFooter />
 </template>
 
 <script setup>

@@ -12,6 +12,7 @@
         <span class="text-gray-700">{{ user.nickname }} 様</span>
         <router-link to="/cart" class="btn-purple">カートを見る</router-link>
         <router-link to="/mypage" class="btn-purple">マイページ</router-link>
+        <button @click="logout" class="btn-purple">ログアウト</button>
       </template>
       <template v-else>
         <router-link to="/login" class="btn-purple">ログイン</router-link>
@@ -24,6 +25,39 @@
 <script setup>
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
+
+axios.defaults.withCredentials = true
+
+async function logout() {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+
+    function getCookie(name) {
+      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
+      if (match) return decodeURIComponent(match[2])
+      return null
+    }
+
+    const token = getCookie('XSRF-TOKEN')
+
+    await axios.post('/logout', {}, {
+      headers: {
+        'X-XSRF-TOKEN': token || '',
+      }
+    })
+
+    userStore.clearUser()
+    router.push('/')
+  } catch (error) {
+    console.error('ログアウト失敗:', error)
+    alert('ログアウトに失敗しました')
+  }
+}
+
 </script>
