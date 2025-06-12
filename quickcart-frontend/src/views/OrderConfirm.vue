@@ -1,40 +1,56 @@
 <template>
+  <div class="min-h-screen flex flex-col">
     <AppHeader />
-  <div class="p-4">
-    <h1>注文確認</h1>
-    <div v-if="cartItems.length">
-      <ul>
-        <li v-for="item in cartItems" :key="item.id" class="mb-4">
-          <p>商品名: {{ item.item.name }}</p>
+    <main class="flex-grow bg-gray-50 py-8 px-4">
+      <h1 class="text-2xl font-bold text-center mb-6">注文確認</h1>
+
+      <div v-if="cartItems.length" class="max-w-3xl mx-auto space-y-6">
+        <div
+          v-for="item in cartItems"
+          :key="item.id"
+          class="bg-white shadow-md rounded-lg p-4 flex items-start space-x-4"
+        >
           <img
             :src="`/images/${item.item.image}`"
-            :alt="item.name"
+            :alt="item.item.name"
+            class="w-28 h-28 object-cover rounded"
           />
-          <p>価格: ¥{{ item.item.price }}</p>
-          <p>数量: {{ item.quantity }}</p>
-        </li>
-      </ul>
-      <div class="mt-4">
-        <p class="font-semibold">合計金額: ¥{{ totalAmount }}</p>
+          <div class="flex-1">
+            <p class="text-lg font-semibold mb-1">商品名: {{ item.item.name }}</p>
+            <p class="text-gray-700 mb-1">価格: ¥{{ item.item.price }}</p>
+            <p class="text-gray-700">数量: {{ item.quantity }}</p>
+          </div>
+        </div>
+        <div class="text-right pr-2">
+          <p class="text-xl font-bold">合計金額: ¥{{ totalAmount }}</p>
+        </div>
+        <div v-if="user" class="bg-white p-4 rounded shadow-md">
+          <h2 class="text-lg font-semibold mb-2 border-b pb-1">お届け先情報</h2>
+          <p class="mb-1">お名前: {{ user.name }}</p>
+          <p class="mb-1">メール: {{ user.email }}</p>
+          <p class="mb-1">住所: {{ user.address }}</p>
+          <p>電話番号: {{ user.number }}</p>
+        </div>
+        <div v-if="user" class="mt-6">
+        <h2 class="text-lg font-semibold mb-2">カード情報</h2>
+        <div class="bg-white p-4 rounded shadow-md">
+            <div id="card-element" class="p-2 border rounded bg-white"></div>
+            <p id="card-error" class="text-red-500 text-sm mt-2"></p>
+        </div>
+        </div>
+        <div class="text-center mt-6">
+          <button
+            @click="submitOrder"
+            class="px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded"
+          >
+            注文を確定する
+          </button>
+        </div>
       </div>
-      <div v-if="user" class="mt-4 border-t pt-4">
-        <h2 class="text-lg font-semibold">お届け先情報</h2>
-        <p>お名前: {{ user.name }}</p>
-        <p>メール: {{ user.email }}</p>
-        <p>住所: {{ user.address }}</p>
-        <p>電話番号: {{ user.number }}</p>
-      </div>
-    <div v-if="user" class="mt-6">
-    <h2 class="text-lg font-semibold">カード情報</h2>
-    <div id="card-element" class="border p-3 rounded bg-white"></div>
-    <p id="card-error" class="text-red-500 text-sm mt-1"></p>
-    </div>
-      <button @click="submitOrder" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
-        注文を確定する
-      </button>
-    </div>
+      <p v-else class="text-center text-gray-600 mt-10">カートに商品はありません。</p>
+    </main>
+    <AppFooter />
   </div>
-  <AppFooter />
 </template>
 
 <script setup>
