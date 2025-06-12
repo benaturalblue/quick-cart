@@ -4,10 +4,12 @@
     <main class="flex-grow flex items-center justify-center px-4">
     <div class="flex-grow max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
       <h2 class="text-xl font-bold mb-4">新規登録</h2>
-      <form @submit.prevent="register">
+      <form class="h-adr" @submit.prevent="register">
         <input v-model="nickname" type="text" placeholder="ニックネーム" class="input mb-3 w-full" />
         <input v-model="name" type="text" placeholder="名前" class="input mb-3 w-full" />
-        <input v-model="address" type="text" placeholder="住所" class="input mb-3 w-full" />
+        <span class="p-country-name" style="display:none;">Japan</span>
+        <input v-model="postalCode" type="text" class="input mb-3 w-full p-postal-code" placeholder="郵便番号（例：1000001）" />
+        <input v-model="address" ref="addressInput" type="text" class="input mb-3 w-full p-region p-locality p-street-address" placeholder="住所" />
         <input v-model="number" type="text" placeholder="電話番号" class="input mb-3 w-full" />
         <input v-model="email" type="email" placeholder="メールアドレス" class="input mb-3 w-full" />
         <input v-model="password" type="password" placeholder="パスワード" class="input mb-3 w-full" />
