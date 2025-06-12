@@ -11,7 +11,7 @@
         <h1 class="text-2xl font-bold mb-2">{{ item.name }}</h1>
         <p class="text-gray-700 mb-4">{{ item.description }}</p>
         <p class="text-xl font-semibold mb-4">¥{{ item.price.toLocaleString() }}</p>
-        <button class="btn-outline-purple px-6 py-2 rounded border-2 border-purple-600 text-purple-600 hover:bg-purple-100 transition" @click="addToCart(item.id)">カートに追加</button>
+        <button class="mr-4 btn-outline-purple px-6 py-2 rounded border-2 border-purple-600 text-purple-600 hover:bg-purple-100 transition" @click="addToCart(item.id)">カートに追加</button>
         <button
             class="btn-outline-gray px-6 py-2 rounded border-2 border-gray-400 text-gray-700 hover:bg-gray-100 transition"
             @click="goBack"
@@ -94,5 +94,9 @@ const addToCart = async (itemId) => {
   } catch (error) {
     console.error('カート追加エラー:', error)
   }
+}
+
+function goBack() {
+  router.back()
 }
 </script>
