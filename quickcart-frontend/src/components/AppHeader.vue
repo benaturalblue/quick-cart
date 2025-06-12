@@ -1,10 +1,10 @@
 <template>
-  <header class="flex justify-between items-center px-6 py-5 bg-white shadow-md">
+  <header class="flex justify-between items-center px-6 py-5 shadow-md">
     <router-link to="/">
     <img
       src="/images/quickcart_logo.jpg"
       alt="QuickCart"
-      class="h-12 object-contain"
+      class="h-16 object-contain"
     />
     </router-link>
     <div class="space-x-4">

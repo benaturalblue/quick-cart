@@ -1,6 +1,6 @@
 <template>
     <AppHeader />
-  <div class="min-h-screen bg-gray-100">
+  <div class="h-screen bg-white">
     <main class="px-6 py-10 max-w-screen-xl mx-auto">
       <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         <div
