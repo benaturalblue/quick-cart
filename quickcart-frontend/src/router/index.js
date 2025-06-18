@@ -6,6 +6,7 @@ import RegisterView from '@/views/RegisterView.vue';
 import CartView from '../views/CartView.vue';
 import OrderConfirm from '@/views/OrderConfirm.vue';
 import MyPage from '../views/MyPage.vue'
+import ContactChat from '../views/ContactChat.vue'
 
 
 const routes = [
@@ -14,7 +15,8 @@ const routes = [
   { path: '/item/:id', name: 'ItemDetail', component: ItemDetail },
   { path: '/login', name: 'Login', component: LoginView },
   { path: '/order/confirm', name: 'OrderConfirm', component: OrderConfirm },
-  { path: '/mypage', name: 'MyPage', component: MyPage},
+  { path: '/mypage', name: 'MyPage', component: MyPage },
+  { path: '/contact', name: 'Contact', component: ContactChat },
   { path: '/register', name: 'Register', component: RegisterView }
 ];
 
